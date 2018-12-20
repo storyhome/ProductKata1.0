@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NUnit.Framework;
 using ProductKata1._0;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace ProductKata1._0Test
 {
@@ -21,7 +22,8 @@ namespace ProductKata1._0Test
             mock.Verify(x => x.Save(p), Times.Once);
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
+        //[ExpectedException(typeof(ArgumentException))]
         public void AProductWithAnInvalidExpirationDateShouldThrowException()
         {
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
@@ -30,7 +32,9 @@ namespace ProductKata1._0Test
             Product p = new Product() { Id = 1, ExpirationDate = DateTime.Now.AddDays(-1), Name = "product1" };
 
             ProductPersister sut = new ProductPersister(mock.Object);
-            sut.Save(p);
+            
+            //mock.Verify(x => x.Save(p), Times.Never);
+            Assert.ThrowsException<ArgumentException>(() => sut.Save(p));
         }
     }
 }

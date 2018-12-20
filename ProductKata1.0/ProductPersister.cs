@@ -19,8 +19,10 @@ namespace ProductKata1._0
             {
                 throw new ArgumentException("Expiration Date can not be less than the current date");
             }
-
-            _productRepository.Save(product);
+            else
+            {
+                _productRepository.Save(product);
+            }
         }
 
         public List<Product> Find()
